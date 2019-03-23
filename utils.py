@@ -17,6 +17,19 @@ def save_model(root,model, epoch,optimizer,loss):
     PATH = os.path.join(root, filename)
     torch.save(model_dict, PATH)
 
+def save_model_1(root,model,loss,accuracy):
+    if not os.path.exists(root):
+        raise RuntimeError('Root Directory not found!')
+
+    model_dict = {'model_state_dict': model.state_dict(),
+            'accuracy': accuracy,
+            'loss': loss}
+
+    filename = model.__class__.__name__ + ("_acc_%.2f" % accuracy) + ".tar"
+    print("Saving to ",filename)
+    PATH = os.path.join(root, filename)
+    torch.save(model_dict, PATH)
+
 #Save an numpy object of an image to a ``png`` file 
 def save_image(root, tensor, epoch , iters):
     if not os.path.exists(root):
