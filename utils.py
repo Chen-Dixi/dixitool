@@ -30,6 +30,16 @@ def save_model_1(root,model,loss,accuracy):
     PATH = os.path.join(root, filename)
     torch.save(model_dict, PATH)
 
+def load_model_checkpoint(PATH, model, *args,**kwargs):
+   checkpoint = torch.load(PATH)
+   model.load_state_dict(checkpoint['model_state_dict'])
+   
+   accuracy = checkpoint['accuracy']
+   loss = checkpoint['loss']
+
+   return model, accuracy,loss
+
+
 #Save an numpy object of an image to a ``png`` file 
 def save_image(root, tensor, epoch , iters):
     if not os.path.exists(root):
