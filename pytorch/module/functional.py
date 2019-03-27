@@ -14,7 +14,7 @@ def save_model(root, postfix ,model):
         model: nn.Module
     """
     if not os.path.exists(root):
-        raise RuntimeError('Root Directory not found!')
+        os.mkdir(root)
 
     filename = model.__class__.__name__ + postfix + ".pth"
     PATH = os.path.join(root,filename)
