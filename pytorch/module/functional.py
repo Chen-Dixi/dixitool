@@ -40,7 +40,7 @@ def load_model_cross_device(PATH, model, save_location='gpu', load_location='cpu
     #Save on GPU, Load on CPU
     if across == 'gpu_cpu':
         device = torch.device('cpu')
-        model.load_state_dict(torch.load(PATH,map_location=decice))
+        model.load_state_dict(torch.load(PATH,map_location=device))
     #Save on GPU, Load on GPU
     elif across == 'gpu_gpu':
         device = torch.device("cuda")
