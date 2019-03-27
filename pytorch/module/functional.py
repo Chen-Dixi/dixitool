@@ -4,19 +4,19 @@ import os
 
 
 
-def save_model(root, number ,model):
-    # type: (str, int, nn.Module) -> void
+def save_model(root, postfix ,model):
+    # type: (str, str, nn.Module) -> void
     """Save a nn.Module to .pth file
 
     Args:
         root: the root directory to which the model will be save
-        number: an int or float number that the save path ends with
+        postfix: postfix of the save path name
         model: nn.Module
     """
     if not os.path.exists(root):
         raise RuntimeError('Root Directory not found!')
 
-    filename = model.__class__.__name__ + str(number) + ".pth"
+    filename = model.__class__.__name__ + postfix + ".pth"
     PATH = os.path.join(root,filename)
     torch.save(model.state_dict(), PATH)
 
