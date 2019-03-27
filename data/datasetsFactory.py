@@ -19,7 +19,7 @@ def create_data_loader(dataset, root, batch_size):
 
         testSets = datasets.MNIST(root,train=False,download=False,transform=transform)
         testDataloader = DataLoader(dataset=testSets,batch_size=batch_size,shuffle=True)
-        print(len(trainSets))
+        
         
     elif dataset.lower() == "mnist_m":
         transform = transforms.Compose([
@@ -33,7 +33,7 @@ def create_data_loader(dataset, root, batch_size):
         trainDataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
 
         testSets = datasets.ImageFolder(root=os.path.join(root,'test'),transform=transform)
-        print(len(trainSets))
+        
 
         testDataloader = DataLoader(dataset=testSets,batch_size=batch_size,shuffle=True)
     return trainDataloader, testDataloader
