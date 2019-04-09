@@ -68,6 +68,8 @@ def create_data_loader_with_transform(dataset, root, batch_size, train_transform
         dataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
 
         return dataloader
+    else:
+        raise ValueError("dataset cannot be recognized")
 
 
     
