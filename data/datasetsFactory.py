@@ -39,29 +39,41 @@ def create_data_loader(dataset, root, batch_size):
         testDataloader = DataLoader(dataset=testSets,batch_size=batch_size,shuffle=True)
     return trainDataloader, testDataloader
 
-def create_data_loader_with_transform(dataset, root, batch_size, transform=None):
+def create_data_loader_with_transform(dataset, root, batch_size, train_transform=None,test_transform=None):
     
     if dataset.lower() == "mnist":
-        
-
         #Prepa Data  ,Train, Test分开
         #mnist
-        trainSets = datasets.MNIST(root,train=True,download=False,transform=transform)
+        trainSets = datasets.MNIST(root,train=True,download=False,transform=training_transform)
         trainDataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
 
-        testSets = datasets.MNIST(root,train=False,download=False,transform=transform)
+        testSets = datasets.MNIST(root,train=False,download=False,transform=test_transform)
         testDataloader = DataLoader(dataset=testSets,batch_size=batch_size,shuffle=True)
-        
+        return trainDataloader, testDataloader
         
     elif dataset.lower() == "mnist_m":
-        
-
         #mnist_m
-        trainSets = datasets.ImageFolder(root=os.path.join(root,'train'),transform=transform)
+        trainSets = datasets.ImageFolder(root=os.path.join(root,'train'),transform=train_transform)
         trainDataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
 
-        testSets = datasets.ImageFolder(root=os.path.join(root,'test'),transform=transform)
+        testSets = datasets.ImageFolder(root=os.path.join(root,'test'),transform=test_transform)
         
-
         testDataloader = DataLoader(dataset=testSets,batch_size=batch_size,shuffle=True)
-    return trainDataloader, testDataloader
+
+        return trainDataloader, testDataloader
+    elif dataset.lower() == "webcam" or dataset.lower() == "dslr" or dataset.lower() == "amazon":
+        #office-31 datasets 主要的问题是划分 test和train
+        # office-31 数据集，不反回测试集
+        trainSets = datasets.ImageFolder(root=os.path.join(root,'images'),transform=train_transform)
+        dataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
+
+        return dataloader
+
+
+    
+
+
+
+
+
+
