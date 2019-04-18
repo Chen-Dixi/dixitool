@@ -20,6 +20,22 @@ def save_model(root, postfix ,model):
     PATH = os.path.join(root,filename)
     torch.save(model.state_dict(), PATH)
 
+def save_model_dict(root, filename,state_dict):
+    # type: (str, str, nn.Module) -> void
+    """Save a nn.Module to .pth file
+
+    Args:
+        root: the root directory to which the model will be save
+        filename: filename
+        state_dict: state_dict()
+    """
+    if not os.path.exists(root):
+        os.mkdir(root)
+
+    filename = filename + ".pth"
+    PATH = os.path.join(root,filename)
+    torch.save(state_dict, PATH)
+
 def load_model_cross_device(PATH, model, save_location='gpu', load_location='cpu'):
     # type: (str, nn.Module, str, str) -> nn.Module
     """Save a nn.Module to .pth file

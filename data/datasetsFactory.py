@@ -40,7 +40,13 @@ def create_data_loader(dataset, root, batch_size):
     return trainDataloader, testDataloader
 
 def create_data_loader_with_transform(dataset, root, batch_size, train_transform=None,test_transform=None):
-    
+        # type: (str,str,int,tranform, transform) -> dataloader
+    """create various dataloader object
+
+    Args:
+        str,str,tranform, transform
+    Return:
+    """
     if dataset.lower() == "mnist":
         #Prepa Data  ,Train, Test分开
         #mnist
@@ -64,7 +70,7 @@ def create_data_loader_with_transform(dataset, root, batch_size, train_transform
     elif dataset.lower() == "webcam" or dataset.lower() == "dslr" or dataset.lower() == "amazon":
         #office-31 datasets 主要的问题是划分 test和train
         # office-31 数据集，不反回测试集
-        trainSets = datasets.ImageFolder(root=os.path.join(root,'images'),transform=train_transform)
+        trainSets = datasets.ImageFolder(root=os.path.join(root,'images'), transform=train_transform)
         dataloader = DataLoader(dataset=trainSets,batch_size=batch_size,shuffle=True)
 
         return dataloader
