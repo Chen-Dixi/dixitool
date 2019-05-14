@@ -1,1 +1,1 @@
-from .filelist import ListFile
+from .listfile import ImageList
