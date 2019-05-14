@@ -48,7 +48,7 @@ def make_dataset(list_file, labels,extensions):
 
 class ListFile(data.Dataset):
 
-    def __init__(self, list_file , labels=None ,loader ,extensions, transform=None, target_transform=None):
+    def __init__(self, list_file ,loader ,extensions,labels=None ,transform=None, target_transform=None):
         samples = make_dataset(list_file, labels,extensions)
         if len(samples) == 0:
             raise RuntimeError("Found 0 files in subfolders of: " + root + "\n")
@@ -111,9 +111,9 @@ IMG_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tif
 class ImageList(ListFile):
     def __init__(self, list_file , labels=None , transform=None, target_transform=None,
                 loader=default_loader):
-        super(ImageList, self).__init__(list_file ,labels,loader ,IMG_EXTENSIONS
-                                        , transform=transform, target_transform=target_transform)
-        self.imgs = self.samples)
+        super(ImageList, self).__init__(list_file ,loader ,IMG_EXTENSIONS,labels,
+                                         transform=transform, target_transform=target_transform)
+        self.imgs = self.samples
 
 
 
