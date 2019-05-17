@@ -41,7 +41,7 @@ def make_dataset(list_file, labels,extensions):
             if(len(file_and_label.split())==2 and has_file_allowed_extension(file_and_label.split()[0], extensions)):
                 data_array = file_and_label.split()
                 path = data_array[0]
-                label = data_array[1]
+                label = int(data_array[1])
                 item = (path, label)
                 images.append(item)
     return images
