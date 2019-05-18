@@ -3,7 +3,7 @@ import torch.utils.data as data
 from PIL import Image
 
 import os
-import os.path
+
 import sys
 import numpy as np
 
@@ -21,8 +21,8 @@ def has_file_allowed_extension(filename, extensions):
     return any(filename_lower.endswith(ext) for ext in extensions)
 
 
-def make_dataset(list_file, labels,extensions):
-   
+def make_dataset(list_file, labels,absolute_prefix,extensions,label_filter):
+    label_filter = label_filter or (lambda x : True)
     images=[]
     try:
         file = open(list_file,'r')
@@ -40,16 +40,19 @@ def make_dataset(list_file, labels,extensions):
         for file_and_label in image_list:
             if(len(file_and_label.split())==2 and has_file_allowed_extension(file_and_label.split()[0], extensions)):
                 data_array = file_and_label.split()
-                path = data_array[0]
+
+                path = os.path.join(absolute_prefix,data_array[0])
                 label = int(data_array[1])
-                item = (path, label)
-                images.append(item)
+                if label_filter(label):
+                    item = (path, label)
+                    images.append(item)
+    file.close()
     return images
 
 class ListFile(data.Dataset):
 
-    def __init__(self, list_file ,loader ,extensions,labels=None ,transform=None, target_transform=None):
-        samples = make_dataset(list_file, labels,extensions)
+    def __init__(self, list_file ,loader ,extensions,labels=None ,absolute_prefix='',transform=None, target_transform=None, label_filter=None):
+        samples = make_dataset(list_file, labels,absolute_prefix,extensions,label_filter)
         if len(samples) == 0:
             raise RuntimeError("Found 0 files in subfolders of: " + root + "\n")
 
@@ -109,10 +112,10 @@ def default_loader(path):
 IMG_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tiff', 'webp']
 
 class ImageList(ListFile):
-    def __init__(self, list_file , labels=None , transform=None, target_transform=None,
-                loader=default_loader):
-        super(ImageList, self).__init__(list_file ,loader ,IMG_EXTENSIONS,labels,
-                                         transform=transform, target_transform=target_transform)
+    def __init__(self, list_file , absolute_prefix='',labels=None , transform=None, target_transform=None,
+                loader=default_loader, label_filter=None):
+        super(ImageList, self).__init__(list_file ,loader ,IMG_EXTENSIONS,labels,absolute_prefix=absolute_prefix,
+                                         transform=transform, target_transform=target_transform, label_filter=label_filter)
         self.imgs = self.samples
 
 
