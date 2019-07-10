@@ -20,6 +20,13 @@ def save_model(root, postfix ,model):
     PATH = os.path.join(root,filename)
     torch.save(model.state_dict(), PATH)
 
+def save_checkpoint(self, state, is_best,root, filename='checkpoint.pth.tar'):
+    if not os.path.exists(root):
+        os.mkdir(root)
+
+    filename = os.path.join(root, filename)
+    torch.save(state, filename)
+
 def save_model_dict(root, filename,state_dict):
     # type: (str, str, nn.Module) -> void
     """Save a nn.Module to .pth file
