@@ -20,7 +20,7 @@ def save_model(root, postfix ,model):
     PATH = os.path.join(root,filename)
     torch.save(model.state_dict(), PATH)
 
-def save_checkpoint(self, state, is_best,root, filename='checkpoint.pth.tar'):
+def save_checkpoint( state, is_best, root, filename='checkpoint.pth.tar'):
     if not os.path.exists(root):
         os.mkdir(root)
 
