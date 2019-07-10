@@ -56,6 +56,14 @@ class ResNet50Fc(BaseFeatureExtractor):
         x = x.view(x.size(0), -1)
         return x
 
+    def train(self, mode=True):
+        # freeze BN mean and std
+        for module in self.children():
+            if isinstance(module, nn.BatchNorm2d):
+                module.train(False)
+            else:
+                module.train(mode)
+                
     def output_num(self):
         return self.__in_features
 

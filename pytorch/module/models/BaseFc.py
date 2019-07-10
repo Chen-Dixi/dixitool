@@ -10,10 +10,4 @@ class BaseFeatureExtractor(nn.Module):
     def output_num(self):
         pass
 
-    def train(self, mode=True):
-        # freeze BN mean and std
-        for module in self.children():
-            if isinstance(module, nn.BatchNorm2d):
-                module.train(False)
-            else:
-                module.train(mode)
+    
