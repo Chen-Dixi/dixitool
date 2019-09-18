@@ -1,7 +1,7 @@
 import torch
 import os
 import torch.nn as nn
-
+import shutil
 
 
 def save_model(root, postfix ,model):
@@ -26,6 +26,8 @@ def save_checkpoint( state, is_best, root, filename='checkpoint.pth.tar'):
 
     filename = os.path.join(root, filename)
     torch.save(state, filename)
+    if is_best:
+        shutil.copyfile(filename, os.path.join(root, 'model_best.pth.tar') )
 
 def save_model_dict(root, filename,state_dict):
     # type: (str, str, nn.Module) -> void
