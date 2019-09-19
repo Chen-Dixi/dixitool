@@ -27,7 +27,7 @@ def save_checkpoint( state, is_best, root, filename='checkpoint.pth.tar'):
     filename = os.path.join(root, filename)
     torch.save(state, filename)
     if is_best:
-        shutil.copyfile(filename, os.path.join(root, 'model_best.pth.tar') )
+        shutil.copyfile(filename, os.path.join(root, 'model_best_'+filename) )
 
 def save_model_dict(root, filename,state_dict):
     # type: (str, str, nn.Module) -> void
