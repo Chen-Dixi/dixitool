@@ -50,6 +50,6 @@ class AccCalculatorForEveryClass(object):
     def print_result(self):
         print("Total Accuracy:{:.4f}%".format(100.* self.corrects.sum()/(self.totals.sum()+self.eps)))
         print("Mean Accuracy over all classes:{:.4f}%".format(100.* (self.corrects/(self.totals+self.eps)).mean()))
-        for i in self.num_classes:
+        for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps)))
