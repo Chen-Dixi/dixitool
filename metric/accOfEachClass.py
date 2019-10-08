@@ -19,7 +19,7 @@ class AccCalculatorForEveryClass(object):
         classes_list = list(classes)
         if len(classes_list)==0:
             raise ValueError("calculator got an empty class list")
-        if not isinstance(classes_list[0], str)
+        if not isinstance(classes_list[0], str):
             raise ValueError("the element of the list should be str")
 
         self.classes = classes_list
@@ -52,11 +52,4 @@ class AccCalculatorForEveryClass(object):
         print("Mean Accuracy over all classes:{:.4f}%".format(100.* (self.corrects/(self.totals+self.eps)).mean()))
         for i in self.num_classes:
             class_name = self.classes[i]
-            print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps))
-
-
-
-
-
-
-
+            print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps)))

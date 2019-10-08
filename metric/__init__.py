@@ -1,1 +1,1 @@
-from .accuratecounter import AccuracyCounter
+from .accOfEachClass import AccCalculatorForEveryClass
