@@ -19,7 +19,7 @@ class AccCalculatorForEveryClass(object):
         classes_list = list(classes)
         if len(classes_list)==0:
             raise ValueError("calculator got an empty class list")
-        if not isinstance(classes_list, str)
+        if not isinstance(classes_list[0], str)
             raise ValueError("the element of the list should be str")
 
         self.classes = classes_list
