@@ -1,4 +1,4 @@
-# 用来计算开放集领域自适应的准确率，实验结果，实验设置按照论文Open Set Domain Adaptation by Backpropagation中的设定计算
+# 用来计算开放集领域自适应的准确率，实验结果按照论文Open Set Domain Adaptation by Backpropagation中的实验设定计算
 import numpy as np
 import torch
 
@@ -40,10 +40,15 @@ class AccCalculatorForEveryClass(object):
         for cur_cls in range(self.num_classes):
             target_mask = (target == cur_cls).byte() 
             pred_mask = (pred == cur_cls).byte()
-            self.totals[cur_cls]+=target_mask.float().sum().item() #sum()表示这个类别的总数
+            self.totals[cur_cls] += target_mask.float().sum().item() #sum()表示这个类别的总数
             self.corrects[cur_cls] +=  (pred_mask & target_mask).float().sum().item() #sum()表示这个batch里面类别cur_cls有多少预测正确
 
     def reset(self):
+        self.corrects = np.zeros(self.num_classes)
+        self.totals = np.zeros(self.num_classes)
+
+    def reset_num_classes(self, num_classes):
+        self.num_classes = num_classes
         self.corrects = np.zeros(self.num_classes)
         self.totals = np.zeros(self.num_classes)
 
