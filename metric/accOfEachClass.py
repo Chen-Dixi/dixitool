@@ -43,6 +43,13 @@ class AccCalculatorForEveryClass(object):
             self.totals[cur_cls] += target_mask.float().sum().item() #sum()表示这个类别的总数
             self.corrects[cur_cls] +=  (pred_mask & target_mask).float().sum().item() #sum()表示这个batch里面类别cur_cls有多少预测正确
 
+    def get(self, ignore_last_class=False):
+        if not ignore_last_class:
+            return 100.* self.corrects.sum()/(self.totals.sum()+self.eps)
+        else:
+            return 100.* self.corrects[:-1].sum()/(self.totals[:-1].sum()+self.eps)
+
+
     def reset(self):
         self.corrects = np.zeros(self.num_classes)
         self.totals = np.zeros(self.num_classes)
@@ -52,9 +59,13 @@ class AccCalculatorForEveryClass(object):
         self.corrects = np.zeros(self.num_classes)
         self.totals = np.zeros(self.num_classes)
 
-    def print_result(self):
+    def print_result(self, save_best=False):
         print("Total Accuracy:{:.4f}%".format(100.* self.corrects.sum()/(self.totals.sum()+self.eps)))
         print("Mean Accuracy over all classes:{:.4f}%".format(100.* (self.corrects/(self.totals+self.eps)).mean()))
         for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps)))
+
+    """
+    save best parameters
+    """
