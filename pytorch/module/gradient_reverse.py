@@ -41,7 +41,7 @@ class GradReverseLayer(nn.Module):
         
         if self.training:
             self.global_step += 1.0
-        x = grad_reverse(x, lambd)
+        x = GradReverse.apply(x, lambd)
         return x
 
 
