@@ -33,9 +33,11 @@ class GradReverseLayer(nn.Module):
         self.register_buffer('global_step', torch.zeros(1))
 
 
-    def forward(self, x):
+    def forward(self, x , lambd=None):
         #1个batch就加一个1
-        lambd = self.scheduler(self.global_step)#lambd是一个torch
+        if lambd is None:
+            lambd = self.scheduler(self.global_step)#lambd是一个torch tensor
+        
         if self.training:
             self.global_step += 1.0
         x = grad_reverse(x, lambd)
