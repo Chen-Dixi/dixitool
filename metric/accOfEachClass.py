@@ -67,5 +67,5 @@ class AccCalculatorForEveryClass(object):
             print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps)))
 
     """
-    save best parameters
+    wait to code: save best parameters
     """
