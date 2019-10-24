@@ -114,9 +114,11 @@ class AccCalculatorForEveryClass(object):
                 self.best_result = max(mean_acc_overclasses, self.best_result)
 
             elif self.best_method == 'category':
+
                 the_category_acc = 100. * self.corrects[self.best_category_id]/(self.totals[self.best_category_id]+self.eps)
                 is_best = the_category_acc > self.best_result
                 self.best_result = max(the_category_acc, self.best_result)
+                print("category id:{}".format(self.best_category_id))
                 print(self.best_result)
 
             if is_best:
