@@ -114,7 +114,7 @@ class AccCalculatorForEveryClass(object):
                 self.best_result = max(mean_acc_overclasses, self.best_result)
 
             elif self.best_method == 'category':
-                the_category_acc = 100. * (self.corrects[self.best_category_id]/(self.totals[self.best_category_id]+self.eps))
+                the_category_acc = 100. * self.corrects[self.best_category_id]/(self.totals[self.best_category_id]+self.eps)
                 is_best = the_category_acc > self.best_result
                 self.best_result = max(the_category_acc, self.best_result)
 
@@ -122,10 +122,6 @@ class AccCalculatorForEveryClass(object):
                 self.best_corrects = self.corrects.copy()
                 self.best_totals = self.totals.copy()
 
-
-    """
-    wait to code: save best parameters
-    """
     def print_best_result(self):
         total_acc = 100.* self.best_corrects.sum()/(self.best_totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.best_corrects/(self.best_totals+self.eps)).mean()
