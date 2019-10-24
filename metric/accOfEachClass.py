@@ -2,6 +2,7 @@
 import numpy as np
 import torch
 
+# 按照 [总的准确率判断 ，各个类的准确率求平均值，某个类别的准确率] 衡量最好结果
 ALLOWED_BEST_METRICS = ['total_acc', 'mean_acc_overclasses','category']
 """
 The average accuracy of all classes including the unknown one is denoted as OS.
@@ -10,8 +11,6 @@ Accuracy measures only on the known classes of the target domain is denoted as O
 ALLOWED_RESULT_TYPE = ['total','OS','OS*']
 
 class AccCalculatorForEveryClass(object):
-    
-    # 按照 [总的准确率判断 ，各个类的准确率求平均值，某个类别的准确率] 衡量最好结果
     
     best_result = 0.0
     best_method = 'total_acc'# 判断best_model的方式
