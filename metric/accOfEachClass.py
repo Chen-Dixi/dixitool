@@ -90,7 +90,7 @@ class AccCalculatorForEveryClass(object):
             raise ValueError("category method must specify a category ID")
 
         if best_method == 'category':
-            self.best_category_id == category_id
+            self.best_category_id = category_id
 
 
     def print_result(self, save_best=False):
@@ -118,8 +118,6 @@ class AccCalculatorForEveryClass(object):
                 the_category_acc = 100. * self.corrects[self.best_category_id]/(self.totals[self.best_category_id]+self.eps)
                 is_best = the_category_acc > self.best_result
                 self.best_result = max(the_category_acc, self.best_result)
-                print("category id:{}".format(self.best_category_id))
-                print(self.best_result)
 
             if is_best:
                 self.best_corrects = self.corrects.copy()
