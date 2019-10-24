@@ -3,7 +3,11 @@ import numpy as np
 import torch
 
 ALLOWED_BEST_METRICS = ['total_acc', 'mean_acc_overclasses','category']
-
+"""
+The average accuracy of all classes including the unknown one is denoted as OS.
+Accuracy measures only on the known classes of the target domain is denoted as OS*.
+"""
+ALLOWED_RESULT_TYPE = ['total','OS','OS*']
 
 class AccCalculatorForEveryClass(object):
     
@@ -54,12 +58,19 @@ class AccCalculatorForEveryClass(object):
             pred_mask = (pred == cur_cls).byte()
             self.totals[cur_cls] += target_mask.float().sum().item() #sum()表示这个类别的总数
             self.corrects[cur_cls] +=  (pred_mask & target_mask).float().sum().item() #sum()表示这个batch里面类别cur_cls有多少预测正确
-
-    def get(self, ignore_last_class=False):
-        if not ignore_last_class:
+    """
+    'The average accuracy of all classes including the unknown one is denoted as OS.
+     Accuracy measures only on the known classes of the target domain is denoted as OS*.'
+    """
+    def get(self, result_type='total'):
+        if not result_type in ALLOWED_RESULT_TYPE:
+            raise NotImplementedError("type not allowed")
+        if result_type == 'total':
             return 100.* self.corrects.sum()/(self.totals.sum()+self.eps)
-        else:
-            return 100.* self.corrects[:-1].sum()/(self.totals[:-1].sum()+self.eps)
+        elif result_type == 'OS':
+            return (100.* self.corrects/(self.totals+self.eps)).mean()
+        elif result_type == 'OS*':
+            return (100.* self.corrects[:-1]/(self.totals[:-1]+self.eps)).mean()
 
 
     def reset(self):
