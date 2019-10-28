@@ -8,7 +8,7 @@ ALLOWED_BEST_METRICS = ['total_acc', 'mean_acc_overclasses','category']
 The average accuracy of all classes including the unknown one is denoted as OS.
 Accuracy measures only on the known classes of the target domain is denoted as OS*.
 """
-ALLOWED_RESULT_TYPE = ['total','OS','OS*']
+ALLOWED_RESULT_TYPE = ['total','OS','OS*','category']
 
 class AccCalculatorForEveryClass(object):
     
@@ -61,16 +61,19 @@ class AccCalculatorForEveryClass(object):
     'The average accuracy of all classes including the unknown one is denoted as OS.
      Accuracy measures only on the known classes of the target domain is denoted as OS*.'
     """
-    def get(self, result_type='total'):
+    def get(self, result_type='total', category_id=None):
         if not result_type in ALLOWED_RESULT_TYPE:
             raise NotImplementedError("type not allowed")
         if result_type == 'total':
             return 100.* self.corrects.sum()/(self.totals.sum()+self.eps)
         elif result_type == 'OS':
-            return (100.* self.corrects/(self.totals+self.eps)).mean()
+            return 100.* (self.corrects/(self.totals+self.eps)).mean()
         elif result_type == 'OS*':
-            return (100.* self.corrects[:-1]/(self.totals[:-1]+self.eps)).mean()
-
+            return 100.* (self.corrects[:-1]/(self.totals[:-1]+self.eps)).mean()
+        elif result_type == 'category':
+            if category_id is None:
+                raise ValueError("category method must specify a category ID")
+            return 100.*self.corrects[category_id]/(self.totals[category_id]+self.eps)
 
     def reset(self):
         self.corrects = np.zeros(self.num_classes)
@@ -101,6 +104,7 @@ class AccCalculatorForEveryClass(object):
 
         if best_method == 'category':
             self.best_category_id = category_id
+
 
 
     def print_result(self, save_best=False):
