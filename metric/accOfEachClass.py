@@ -111,8 +111,10 @@ class AccCalculatorForEveryClass(object):
 
         total_acc = 100.* self.corrects.sum()/(self.totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.corrects/(self.totals+self.eps)).mean()
-        print("Total Accuracy:{:.4f}%".format(total_acc))
-        print("Mean Accuracy over all classes:{:.4f}%".format(mean_acc_overclasses))
+        known_acc_average = 100.* (self.corrects[:-1]/(self.totals[:-1]+self.eps)).mean()
+        print("ALL Accuracy:{:.4f}%".format(total_acc))
+        print("OS Accuracy over all classes:{:.4f}%".format(mean_acc_overclasses))
+        print("OS* Accuracy over known classes:{:.4f}%".format(known_acc_average))
         for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.corrects[i]/(self.totals[i]+self.eps)))
@@ -140,8 +142,10 @@ class AccCalculatorForEveryClass(object):
     def print_best_result(self):
         total_acc = 100.* self.best_corrects.sum()/(self.best_totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.best_corrects/(self.best_totals+self.eps)).mean()
+        known_acc_average = 100.* (self.best_corrects[:-1]/(self.best_totals[:-1]+self.eps)).mean()
         print("Total Accuracy:{:.4f}%".format(total_acc))
         print("Mean Accuracy over all classes:{:.4f}%".format(mean_acc_overclasses))
+        print("OS* Accuracy over known classes:{:.4f}%".format(known_acc_average))
         for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.best_corrects[i]/(self.best_totals[i]+self.eps)))
