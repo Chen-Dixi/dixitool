@@ -16,7 +16,7 @@ class AccCalculatorForEveryClass(object):
     best_method = 'total_acc'# 判断best_model的方式
     
     
-    def __init__(self,num_classes,eps=1e-7):
+    def __init__(self,num_classes,eps=1e-7,last_epoch=-1):
         self.classes = []    
         self.eps = eps
         
@@ -26,9 +26,12 @@ class AccCalculatorForEveryClass(object):
         self.best_corrects = np.zeros(self.num_classes)
         self.best_totals = np.zeros(self.num_classes)
         self.best_category_id = 0 #int
-
+        self.last_epoch=last_epoch;
+        
         for i in range(num_classes):
             self.classes.append(str(i))
+
+        self.step(last_epoch)
 
     def set_classes_name(self, classes):
         classes_list = list(classes)
@@ -149,3 +152,8 @@ class AccCalculatorForEveryClass(object):
         for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.best_corrects[i]/(self.best_totals[i]+self.eps)))
+    
+    def step(self,epoch=None):
+        if epoch==None:
+            epoch = self.last_epoch + 1
+        self.last_epoch = epoch
