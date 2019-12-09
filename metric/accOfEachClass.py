@@ -26,7 +26,8 @@ class AccCalculatorForEveryClass(object):
         self.best_corrects = np.zeros(self.num_classes)
         self.best_totals = np.zeros(self.num_classes)
         self.best_category_id = 0 #int
-        self.last_epoch=last_epoch;
+        self.last_epoch=last_epoch
+        self.best_epoch=0
         self.header = ""        
         for i in range(num_classes):
             self.classes.append(str(i))
@@ -141,9 +142,11 @@ class AccCalculatorForEveryClass(object):
             if is_best:
                 self.best_corrects = self.corrects.copy()
                 self.best_totals = self.totals.copy()
+                self.best_epoch = self.last_epoch
 
     def print_best_result(self):
-        self.print_info()
+        self.print_header()
+        self.print_best_epoch()
         total_acc = 100.* self.best_corrects.sum()/(self.best_totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.best_corrects/(self.best_totals+self.eps)).mean()
         known_acc_average = 100.* (self.best_corrects[:-1]/(self.best_totals[:-1]+self.eps)).mean()
@@ -153,6 +156,7 @@ class AccCalculatorForEveryClass(object):
         for i in range(self.num_classes):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.best_corrects[i]/(self.best_totals[i]+self.eps)))
+    
     def set_header_info(self, info=None):
         if info == None:
             info="==========     Result      ============= "
@@ -164,6 +168,8 @@ class AccCalculatorForEveryClass(object):
 
     def print_epoch(self):
         print("Current Epoch: {}%".format(self.last_epoch))
+    def print_best_epoch(self):
+        print("Best Epoch: {}%".format(self.best_epoch))
     def print_header(self):
         print(self.header)
 
