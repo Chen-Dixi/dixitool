@@ -111,7 +111,7 @@ class AccCalculatorForEveryClass(object):
 
 
     def print_result(self, save_best=False):
-
+        self.print_epoch()
         total_acc = 100.* self.corrects.sum()/(self.totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.corrects/(self.totals+self.eps)).mean()
         known_acc_average = 100.* (self.corrects[:-1]/(self.totals[:-1]+self.eps)).mean()
@@ -143,6 +143,7 @@ class AccCalculatorForEveryClass(object):
                 self.best_totals = self.totals.copy()
 
     def print_best_result(self):
+        self.print_epoch()
         total_acc = 100.* self.best_corrects.sum()/(self.best_totals.sum()+self.eps)
         mean_acc_overclasses = 100.* (self.best_corrects/(self.best_totals+self.eps)).mean()
         known_acc_average = 100.* (self.best_corrects[:-1]/(self.best_totals[:-1]+self.eps)).mean()
@@ -153,6 +154,9 @@ class AccCalculatorForEveryClass(object):
             class_name = self.classes[i]
             print("{}:{:.4f}%".format(class_name, 100.*self.best_corrects[i]/(self.best_totals[i]+self.eps)))
     
+    def print_epoch(self):
+        print("Current Epoch: {}%".format(self.last_epoch))
+
     def step(self,epoch=None):
         if epoch==None:
             epoch = self.last_epoch + 1
