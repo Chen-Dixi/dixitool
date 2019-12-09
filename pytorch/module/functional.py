@@ -29,6 +29,13 @@ def save_checkpoint( state, is_best, root, filename='checkpoint.pth.tar'):
     if is_best:
         shutil.copyfile(filename, best_name)
 
+def load_from_checkpoint(checkpoint_file, *keys):
+    results = []
+    checkpoint = torch.load(checkpoint_file)
+    for key in keys:
+        results.append(checkpoint[key])
+    return results
+
 def save_model_dict(root, filename,state_dict):
     # type: (str, str, nn.Module) -> void
     """Save a nn.Module to .pth file
