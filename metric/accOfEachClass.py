@@ -167,9 +167,9 @@ class AccCalculatorForEveryClass(object):
         self.print_epoch()
 
     def print_epoch(self):
-        print("Current Epoch: {}%".format(self.last_epoch))
+        print("Current Epoch: {}".format(self.last_epoch))
     def print_best_epoch(self):
-        print("Best Epoch: {}%".format(self.best_epoch))
+        print("Best Epoch: {}".format(self.best_epoch))
     def print_header(self):
         print(self.header)
 
