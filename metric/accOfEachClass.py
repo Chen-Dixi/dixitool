@@ -47,11 +47,12 @@ class AccCalculatorForEveryClass(object):
             print("Warning, num_classes doesn't equal to length of list")
 
     # pred target 都是torch的tensor
-    def update(self, pred, target):
+    def update(self, pred, target,binary_sigmoided=False):
         
         # if pred is binary guess
         if pred.size(1) == 1:
-            pred = torch.sigmoid(pred)
+            if not binary_sigmoided:
+                pred = torch.sigmoid(pred)
             pred = pred > 0.5 # still tensor; size=(pred.size(0),1), dtype=torch.uint8
         else:
             pred = torch.argmax(pred,dim=1) #size = (pred,size(0),) 1-dimensionx    
