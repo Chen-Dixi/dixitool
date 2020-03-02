@@ -29,6 +29,7 @@ class AccCalculatorForEveryClass(object):
         self.last_epoch=last_epoch
         self.best_epoch=0
         self.header = ""        
+        
         for i in range(num_classes):
             self.classes.append(str(i))
 
