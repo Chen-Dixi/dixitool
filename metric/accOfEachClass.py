@@ -54,10 +54,11 @@ class AccCalculatorForEveryClass(object):
         if pred.size(1) == 1:
             if not binary_sigmoided:
                 pred = torch.sigmoid(pred)
-            pred = pred > 0.5 # still tensor; size=(pred.size(0),1), dtype=torch.uint8
+            pred = pred.ge(0.5).float().view(-1) # still tensor; size=(pred.size(0),1), dtype=torch.uint8
+            
         else:
             pred = torch.argmax(pred,dim=1) #size = (pred,size(0),) 1-dimensionx    
-
+        
         for cur_cls in range(self.num_classes):
             target_mask = (target == cur_cls).byte() 
             pred_mask = (pred == cur_cls).byte()
