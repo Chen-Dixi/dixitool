@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import logging
 
 class TextLogger(object):
     """Writes stream output to external text file.
@@ -58,3 +59,40 @@ class CompleteLogger:
 
     def close(self):
         self.logger.close()
+
+def get_logger(name, logfile, level = logging.DEBUG, save=True):
+    """
+    Create a logger provided by a standard library module
+    Args:
+        name (str): the root directory of logger
+        logfile (str): the phase of training.
+        level : Sets the threshold for this logger to `level`. Logging messages which are less severe than level will be ignored, DEBUG < INFO < WARNING < ERROR < CRITICAL
+    Examples::
+
+        >>> self.logger = get_logger(model_name,os.path.join(self.model_save_folder,'logging.txt'))
+        >>> self.logger.info("train_loss: 0.126655489")
+        2021-12-23 17:09:44,952 - model_name - INFO - train_loss: 0.126655489
+    """
+    LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    formatter = logging.Formatter(LOG_FORMAT)
+
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(level)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    # create file handler and set level to debug
+    if save:
+        fh = logging.FileHandler(logfile, mode='a')
+        fh.setLevel(level)
+        fh.setFormatter(formatter)
+
+        logger.addHandler(fh)
+
+        fh.close()
+    ch.close()
+
+    return logger
