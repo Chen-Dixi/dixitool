@@ -60,7 +60,7 @@ class CompleteLogger:
     def close(self):
         self.logger.close()
 
-def get_logger(name, logfile, level = logging.DEBUG, save=True):
+def get_logging_logger(name, logfile, level = logging.DEBUG, save=True):
     """
     Create a logger provided by a standard library module
     Args:
