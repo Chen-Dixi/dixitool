@@ -35,6 +35,9 @@ class CompleteLogger:
     Args:
         root (str): the root directory of logger
         phase (str): the phase of training.
+    
+    Fields:
+        checkpoint_directory: Directory location to save .pt file of pytorch model.
     """
 
     def __init__(self, root, phase='train'):
@@ -69,7 +72,7 @@ def get_logging_logger(name, logfile, level = logging.DEBUG, save=True):
         level : Sets the threshold for this logger to `level`. Logging messages which are less severe than level will be ignored, DEBUG < INFO < WARNING < ERROR < CRITICAL
     Examples::
 
-        >>> self.logger = get_logger(model_name,os.path.join(self.model_save_folder,'logging.txt'))
+        >>> self.logger = get_logger(model_name, os.path.join(self.model_save_folder,'logging.txt'))
         >>> self.logger.info("train_loss: 0.126655489")
         2021-12-23 17:09:44,952 - model_name - INFO - train_loss: 0.126655489
     """
