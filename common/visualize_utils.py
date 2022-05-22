@@ -26,6 +26,35 @@ def plot_2d(cartesian_CG, out_CG, filename:str, cartesian_color = 'r', out_color
     # output image
     plt.savefig(filename)
 
+def plot_hist(datas, bins: int, labels: List[str],
+             colors: List[str], title:str,
+             savefig_file: str,
+             x_label: str = None,
+             y_label: str = None,
+             log: bool = False,
+             density: bool = True,):
+    r"""在一张图片里画出多组数据的直方图
+    Args:
+    - bins: Defines the number of equal-width bins in the range.
+    """
+    assert len(labels) == len(colors)
+
+    fig, ax = plt.subplots()
+    n, bin_edges, patches = ax.hist(datas, bins=bins, color=colors, label=labels, density=density, log=log)
+    ax.set_title(title)
+    ax.legend()
+    
+    if x_label is not None:
+        ax.set_xlabel(x_label)
+    
+    if y_label is not None:
+        ax.set_ylabel(y_label)
+
+    plt.savefig(savefig_file)
+
+    plt.clf()
+    plt.close(fig)
+    
 def plot_3d_wireframe(data: List, title: List[str], color: List[str], savefile:str):
     """
     3D Plot, 用matlibplot画3D wirefram图

@@ -54,7 +54,7 @@ class ListFile(data.Dataset):
     def __init__(self, list_file ,loader ,extensions,labels=None ,absolute_prefix='',transform=None, target_transform=None, label_filter=None):
         samples = make_dataset(list_file, labels,absolute_prefix,extensions,label_filter)
         if len(samples) == 0:
-            raise RuntimeError("Found 0 files in subfolders of: " + root + "\n")
+            raise RuntimeError("Found 0 files\n")
 
         self.samples = samples
         self.loader = loader
